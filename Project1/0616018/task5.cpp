@@ -12,17 +12,16 @@
 #include <typeinfo>
 #include <string.h>
 using namespace std;
+string fist[3] = {"Paper", "Scissor", "Stone"};
 
 int main(){
-  int shmid;
-  char *shmaddr;
-  //cin >> key;
-  key_t key =  ftok("/tmp/1234.txt", 123);
-  cout<<key;
-  shmid = shmget(key, sizeof(key_t), IPC_CREAT|0666);
-  shmaddr = (char *)shmat(shmid, NULL, 0);
-  //strcpy( shmaddr, "Hi, I am child process!\n") ;
-  shmdt( shmaddr ) ;
-  shmaddr = (char *) shmat(shmid, NULL, 0 ) ;
-  printf("%s", shmaddr);
+  int *shmaddr;
+  string OK;
+  cin >> key;
+  int shmid = shmget(key, sizeof(key_t), IPC_CREAT|0666);
+  for(int i=0; i<100; i++){
+    cin >> OK;
+    shmaddr = (int *) shmat(shmid, NULL, 0 );
+    cout << fist[(shmaddr + 1) % 3] << endl;
+  }
 }
