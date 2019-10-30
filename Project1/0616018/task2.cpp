@@ -6,8 +6,8 @@
 using namespace std;
 int main(){
   int status;
-  pid_t pid;
-  pid = fork();
+  int mainp = getpid();
+  pid_t pid = 0;
   for(int i=0; i<11; i++){
     if(pid < 0){
       printf("fail");
@@ -17,8 +17,11 @@ int main(){
       pid = fork();
     }
     else{
-      int ex = wait(&status);
-      if(ex != -1) printf("process pid %d exit\n", ex);
+      wait(&status);
+      printf("process pid %d exit\n", getpid());
+      exit(0);
     }
   }
+  wait(&status);
+  if(pid)printf("process pid %d exit\n", getpid());
 }
