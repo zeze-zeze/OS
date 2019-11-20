@@ -1,3 +1,8 @@
+#include <algorithm>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include <cassert>
 #include <unistd.h>
 #include <sys/ipc.h>
