@@ -1,14 +1,13 @@
 #coding=utf-8
 import hashlib
 import socket
-import thread
 import random
-import string
+import thread
 from multiprocessing import Process
 
-CONNECTION_NUMBER = 100
+CONNECTION_NUMBER = 8
 POW_DIFFICULTY = 4
-PROC_THREAD = 50
+PROC_THREAD = 4
 
 class Server():
   def __init__(self, connectionNumber, PoWDifficulty, procThread): 
@@ -24,7 +23,7 @@ class Server():
     self.seed = [''] * self.connectionNumber
     self.hash = [''] * self.connectionNumber
 
-    self.printable = string.uppercase + string.lowercase + '0123456789'
+    self.printable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   
   def start(self):
     self.mul_proc()
@@ -69,7 +68,8 @@ class Server():
       if self.seed[index]:
         return
       guess = ''.join(random.sample(self.printable, 5))
-      res = hashlib.sha256(guess + self.message[index]).hexdigest()
+      res = hashlib.sha256(guess + self.message[index])
+      res = res.hexdigest()
       if (res[:self.PoWDifficulty] == '0' * self.PoWDifficulty) and (not self.seed[index]) and (not self.hash[index]):
         self.hash[index] = res
         self.seed[index] = guess
